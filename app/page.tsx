@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import { Calendar, Share2 } from "lucide-react"
 import { PlinkoBoard } from "@/components/plinko-board"
 import { Button } from "@/components/ui/button"
@@ -12,6 +12,13 @@ export default function Home() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [isDropping, setIsDropping] = useState(false)
   const [appState, setAppState] = useState<"idle" | "selecting" | "dropping" | "result">("idle")
+  const actionButtonsRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    if (appState === "result" && actionButtonsRef.current) {
+      actionButtonsRef.current.scrollIntoView({ behavior: "smooth" })
+    }
+  }, [appState])
 
   // Get current year
   const currentYear = new Date().getFullYear()
@@ -50,6 +57,7 @@ export default function Home() {
   }
 
   // US Holidays for current year
+  // TODO: fix this, it's currently hardcoding some holisdays like Memorial day and Presidents day
   const holidays = [
     { name: "New Year's Day", date: new Date(currentYear, 0, 1) },
     { name: "Martin Luther King Jr. Day", date: new Date(currentYear, 0, 15) }, // 3rd Monday in January (approximate)
@@ -166,7 +174,9 @@ export default function Home() {
 
         <div className="space-y-6">
           <div>
-            <label className="block text-lg font-medium mb-2">Select Month</label>
+            <div className="mt-2">
+            <label className="block text-lg font-medium mb-2">Select a Month</label>
+            </div>
             <Select value={selectedMonth} onValueChange={handleMonthChange}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Choose a month" />
@@ -202,7 +212,10 @@ export default function Home() {
               </Button>
 
               {selectedDate && (
-                <div className="mt-6 p-4 bg-yellow-100 rounded-lg text-center">
+                <div
+                  ref={actionButtonsRef}
+                  className="mt-6 p-4 bg-yellow-100 rounded-lg text-center"
+                >
                   <h2 className="text-2xl font-bold text-blue-800">Your Day Off:</h2>
                   <p className="text-xl my-2">
                     {selectedDate.toLocaleDateString("en-US", {

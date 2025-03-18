@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
-import {Laugh} from "lucide-react";
 
 interface TVHostProps {
   state: "idle" | "selecting" | "dropping" | "result"
@@ -67,7 +66,7 @@ export function TVHost({ state, selectedMonth, selectedDate }: TVHostProps) {
   return (
     <div className="relative">
       <div className="flex items-end">
-        <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="w-24 h-24 relative">
+        <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="min-w-24 w-24 h-24 relative">
           <Image
             src="/avatar_face.png"
             alt="TV Host"
