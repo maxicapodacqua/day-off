@@ -1,0 +1,10 @@
+@font-face {
+  font-family: "Pricedown";
+  src: url("/font/pricedown_bl.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.pricedown-font {
+  font-family: "Pricedown", sans-serif;
+}
