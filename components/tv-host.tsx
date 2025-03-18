@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
+import { isAHoliday } from "@18f/us-federal-holidays"
 
 interface TVHostProps {
   state: "idle" | "selecting" | "dropping" | "result"
@@ -33,25 +34,11 @@ export function TVHost({ state, selectedMonth, selectedDate }: TVHostProps) {
         break
       case "result":
         if (selectedDate) {
-          const isHoliday = [
-            { month: 0, day: 1, name: "New Year's Day" },
-            { month: 0, day: 15, name: "Martin Luther King Jr. Day" },
-            { month: 1, day: 19, name: "Presidents' Day" },
-            { month: 4, day: 27, name: "Memorial Day" },
-            { month: 5, day: 19, name: "Juneteenth" },
-            { month: 6, day: 4, name: "Independence Day" },
-            { month: 8, day: 2, name: "Labor Day" },
-            { month: 9, day: 14, name: "Columbus Day" },
-            { month: 10, day: 11, name: "Veterans Day" },
-            { month: 10, day: 28, name: "Thanksgiving Day" },
-            { month: 11, day: 25, name: "Christmas Day" },
-          ].some((h) => h.month === selectedDate.getMonth() && h.day === selectedDate.getDate())
-
           const dayName = selectedDate.toLocaleDateString("en-US", { weekday: "long" })
           const monthName = selectedDate.toLocaleDateString("en-US", { month: "long" })
           const dayNum = selectedDate.getDate()
 
-          if (isHoliday) {
+          if (isAHoliday(selectedDate)) {
             setMessage(`Congratulations! You got ${dayName}, ${monthName} ${dayNum}. That's a holiday! Double win!`)
           } else {
             setMessage(

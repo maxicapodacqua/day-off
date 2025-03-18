@@ -2,16 +2,16 @@
 
 import { useRef, useEffect, useState } from "react"
 import { motion } from "framer-motion"
+import { isAHoliday } from "@18f/us-federal-holidays"
 
 interface PlinkoProps {
   days: Date[]
   isDropping: boolean
   selectedDate: Date | null
-  isHoliday: (date: Date) => boolean
   onDropComplete: (date: Date) => void
 }
 
-export function PlinkoBoard({ days, isDropping, selectedDate, isHoliday, onDropComplete }: PlinkoProps) {
+export function PlinkoBoard({ days, isDropping, selectedDate, onDropComplete }: PlinkoProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [ballPosition, setBallPosition] = useState({ x: 0, y: -30 })
   const [showBall, setShowBall] = useState(false)
@@ -80,7 +80,7 @@ export function PlinkoBoard({ days, isDropping, selectedDate, isHoliday, onDropC
       const x = index * slotWidth
 
       // Determine if this day is a holiday
-      const holiday = isHoliday(day)
+      const holiday = isAHoliday(day)
 
       // Set slot color
       ctx.fillStyle = holiday ? "#FF6B6B" : day.getDay() === 1 ? "#4ECDC4" : "#FFE66D"
@@ -130,7 +130,7 @@ export function PlinkoBoard({ days, isDropping, selectedDate, isHoliday, onDropC
         cancelAnimationFrame(animationRef.current)
       }
     }
-  }, [days, isDropping, selectedDate, isHoliday])
+  }, [days, isDropping, selectedDate])
 
   // Handle ball dropping animation
   useEffect(() => {
