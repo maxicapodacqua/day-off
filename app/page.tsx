@@ -12,7 +12,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { TVHost } from "@/components/tv-host";
-import { holidays } from "@/lib/dates/holidays"; // Import holidays data
 
 export default function Home() {
   const [selectedMonth, setSelectedMonth] = useState<string>("");
@@ -63,31 +62,6 @@ export default function Home() {
     }
 
     return days;
-  };
-
-  // US Holidays for current year
-  // TODO: fix this, it's currently hardcoding some holisdays like Memorial day and Presidents day
-  // const holidays = [
-  //   { name: "New Year's Day", date: new Date(currentYear, 0, 1) },
-  //   { name: "Martin Luther King Jr. Day", date: new Date(currentYear, 0, 15) }, // 3rd Monday in January (approximate)
-  //   { name: "Presidents' Day", date: new Date(currentYear, 1, 19) }, // 3rd Monday in February (approximate)
-  //   { name: "Memorial Day", date: new Date(currentYear, 4, 27) }, // Last Monday in May (approximate)
-  //   { name: "Juneteenth", date: new Date(currentYear, 5, 19) },
-  //   { name: "Independence Day", date: new Date(currentYear, 6, 4) },
-  //   { name: "Labor Day", date: new Date(currentYear, 8, 2) }, // 1st Monday in September (approximate)
-  //   { name: "Columbus Day", date: new Date(currentYear, 9, 14) }, // 2nd Monday in October (approximate)
-  //   { name: "Veterans Day", date: new Date(currentYear, 10, 11) },
-  //   { name: "Thanksgiving Day", date: new Date(currentYear, 10, 28) }, // 4th Thursday in November (approximate)
-  //   { name: "Christmas Day", date: new Date(currentYear, 11, 25) },
-  // ]
-
-  // Check if a date is a holiday
-  const isHoliday = (date: Date) => {
-    return holidays.some(
-      (holiday) =>
-        holiday.date.getDate() === date.getDate() &&
-        holiday.date.getMonth() === date.getMonth()
-    );
   };
 
   // Handle month selection
