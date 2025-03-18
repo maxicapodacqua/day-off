@@ -15,7 +15,8 @@ export function PlinkoBoard({ days, isDropping, selectedDate, onDropComplete }: 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [ballPosition, setBallPosition] = useState({ x: 0, y: -30 })
   const [showBall, setShowBall] = useState(false)
-  const [landedSlot, setLandedSlot] = useState<number | null>(null)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_landedSlot, setLandedSlot] = useState<number | null>(null)
   const animationRef = useRef<number | null>(null)
   const droppingRef = useRef<boolean>(false)
   const finalDateRef = useRef<Date | null>(null)
