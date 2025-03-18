@@ -1,59 +1,71 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import Image from "next/image"
-import { motion, AnimatePresence } from "framer-motion"
-import { isAHoliday } from "@18f/us-federal-holidays"
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import { isAHoliday } from "@18f/us-federal-holidays";
 
 interface TVHostProps {
-  state: "idle" | "selecting" | "dropping" | "result"
-  selectedMonth: string
-  selectedDate: Date | null
+  state: "idle" | "selecting" | "dropping" | "result";
+  selectedMonth: string;
+  selectedDate: Date | null;
 }
 
 export function TVHost({ state, selectedMonth, selectedDate }: TVHostProps) {
-  const [message, setMessage] = useState("")
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     // Set different messages based on the current state
     switch (state) {
       case "idle":
-        setMessage("Welcome to Day Off Plinko! Select a month to get started!")
-        break
+        setMessage("Welcome to Day Off Plinko! Select a month to get started!");
+        break;
       case "selecting":
-        setMessage(`Great choice! ${selectedMonth} has some excellent days off. Ready to drop the ball?`)
-        break
+        setMessage(
+          `Great choice! ${selectedMonth} has some excellent days off. Ready to drop the ball?`
+        );
+        break;
       case "dropping":
         const phrases = [
           "Watch it bounce! Where will it land?",
           "The suspense is killing me!",
           "Bouncing, bouncing, bouncing!",
           "Look at that ball go!",
-        ]
-        setMessage(phrases[Math.floor(Math.random() * phrases.length)])
-        break
+        ];
+        setMessage(phrases[Math.floor(Math.random() * phrases.length)]);
+        break;
       case "result":
         if (selectedDate) {
-          const dayName = selectedDate.toLocaleDateString("en-US", { weekday: "long" })
-          const monthName = selectedDate.toLocaleDateString("en-US", { month: "long" })
-          const dayNum = selectedDate.getDate()
+          const dayName = selectedDate.toLocaleDateString("en-US", {
+            weekday: "long",
+          });
+          const monthName = selectedDate.toLocaleDateString("en-US", {
+            month: "long",
+          });
+          const dayNum = selectedDate.getDate();
 
           if (isAHoliday(selectedDate)) {
-            setMessage(`Congratulations! You got ${dayName}, ${monthName} ${dayNum}. That's a holiday! Double win!`)
+            setMessage(
+              `Congratulations! You got ${dayName}, ${monthName} ${dayNum}. That's a holiday! Double win!`
+            );
           } else {
             setMessage(
-              `Congratulations! Your day off will be ${dayName}, ${monthName} ${dayNum}. Enjoy your long weekend!`,
-            )
+              `Congratulations! Your day off will be ${dayName}, ${monthName} ${dayNum}. Enjoy your long weekend!`
+            );
           }
         }
-        break
+        break;
     }
-  }, [state, selectedMonth, selectedDate])
+  }, [state, selectedMonth, selectedDate]);
 
   return (
     <div className="relative">
       <div className="flex items-end">
-        <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="min-w-24 w-24 h-24 relative">
+        <motion.div
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="min-w-24 w-24 h-24 relative"
+        >
           <Image
             src="/avatar_face.png"
             alt="TV Host"
@@ -61,7 +73,6 @@ export function TVHost({ state, selectedMonth, selectedDate }: TVHostProps) {
             height={96}
             className="rounded-full border-4 border-yellow-400 bg-blue-600"
           />
-           {/* <Laugh color="#facc15" className="rounded-full border-4 -border-yellow-400 -bg-blue-600 w-24 h-24"/> */}
         </motion.div>
 
         <AnimatePresence mode="wait">
@@ -78,6 +89,5 @@ export function TVHost({ state, selectedMonth, selectedDate }: TVHostProps) {
         </AnimatePresence>
       </div>
     </div>
-  )
+  );
 }
-
